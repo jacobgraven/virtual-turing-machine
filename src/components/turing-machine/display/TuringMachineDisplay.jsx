@@ -11,7 +11,6 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
     setGraphData({ nodes, edges });
   }, [tm]);
 
- 
   return (
     <div className='tm-display'>
       <div className='display-section state-display'>

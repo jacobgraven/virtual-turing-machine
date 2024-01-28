@@ -1,4 +1,4 @@
-/* .App {
+.tm-app {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -7,7 +7,15 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .App {
+    .tm-app {
         flex-direction: row;
     }
-} */
+
+    .tm-editor {
+        border-top-left-radius: 100px;
+    }
+
+    .tm-display {
+        border-top-right-radius: 100px;
+    }
+}
