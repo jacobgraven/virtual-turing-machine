@@ -1,6 +1,24 @@
 # Change Log
 
-## 1.0.0
+## About
+
+Contains a general history about the changes/improvements made to the project. May also include planned work. 
+
+
+## [Unreleased] - yyyy-mm-dd
+
+Listed here are future plans and features currently being developed
+
+### Work in Progress
+
+### Future Plans
+
+## [1.0.0] - 2024-01-28
+
+#### *The first version published to Github*
+
+### Added
+
 
 ### Current Features
 
