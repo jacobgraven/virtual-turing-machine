@@ -52,3 +52,7 @@
     font-size: clamp(0.5rem, 0.3vw + 0.5rem, 1rem);
     border: 1px solid #252525a0;
 }
+
+.display-graph {
+    width: 100%;
+}

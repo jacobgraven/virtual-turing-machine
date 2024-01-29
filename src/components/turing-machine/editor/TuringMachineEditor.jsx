@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import './TuringMachineEditor.css';
 
 const TuringMachineEditor = ({ onTMGeneration }) => {
+  const tapeInputRef = useRef();
+  const stateInputRef = useRef();
+
   const [states, setStates] = useState(new Set());
   const [initialState, setInitialState] = useState('');
   const [tapeContent, setTapeContent] = useState('');
@@ -15,40 +18,35 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
     moveDirection: ''
   });
 
-  const tapeInputRef = useRef();
-  const stateInputRef = useRef();
-
   const generateTM = () => {
     onTMGeneration(states, initialState, tapeContent, 0, transitions);
   };
 
-  const updateTape = () => {
-    const tapeStr = tapeInputRef.current.value;
-    setTapeContent(tapeStr.split(' ').join('_'));
-  };
-
   const addState = () => {
-    const stateToAdd = stateInputRef.current.value.trim();
-    if (stateToAdd === '') {
+    const s = stateInputRef.current.value.trim();
+    if (s === '') {
       return;
     } else {
-      setStates(new Set([...states, stateToAdd]));
+      setStates(new Set([...states, s]));
     }
 
     if (initialState === '' || states.size === 0) {
-      setInitialState(stateToAdd);
+      setInitialState(s);
     }
   };
 
-  const deleteState = (stateToDelete) => {
-    const updatedStates = new Set([...states].filter((s) => s !== stateToDelete));
-    const updatedTransitions = transitions.filter(
-      (t) => t.currentState !== stateToDelete && t.nextState !== stateToDelete
-    );
+  const updateTape = () => {
+    const content = tapeInputRef.current.value;
+    setTapeContent(content.split(' ').join('_'));
+  };
+
+  const deleteState = (s) => {
+    const updatedStates = new Set([...states].filter((state) => state !== s));
+    const updatedTransitions = transitions.filter((t) => t.currentState !== s && t.nextState !== s);
     setStates(updatedStates);
     setTransitions(updatedTransitions);
 
-    if (stateToDelete === initialState) {
+    if (s === initialState) {
       updatedStates.size > 0 ? setInitialState([...updatedStates][0]) : setInitialState('');
     }
   };
@@ -63,16 +61,16 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
     }
   };
 
-  const deleteTransition = (transitionToDelete) => {
-    setTransitions([...transitions].filter((t) => t !== transitionToDelete));
+  const deleteTransition = (t) => {
+    setTransitions([...transitions].filter((transition) => transition !== t));
   };
 
-  const validateTransition = (transition) => {
-    const { currentState, readSymbol, nextState, writeSymbol, moveDirection } = transition;
+  const validateTransition = (t) => {
+    const { currentState, readSymbol, nextState, writeSymbol, moveDirection } = t;
     if (!states.has(currentState)) {
-      return { isValid: false, message: `'${currentState}' is not a valid state` };
+      return { isValid: false, message: `" ${currentState} " is not a valid state` };
     } else if (!states.has(nextState)) {
-      return { isValid: false, message: `'${nextState}' is not a valid state` };
+      return { isValid: false, message: `" ${nextState} " is not a valid state` };
     } else if (typeof readSymbol !== 'string' || readSymbol.length !== 1) {
       return { isValid: false, message: `Invalid symbol (${readSymbol})` };
     } else if (typeof writeSymbol !== 'string' || writeSymbol.length !== 1) {
@@ -81,9 +79,8 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
       return { isValid: false, message: `Invalid direction` };
     } else if (
       transitions.some(
-        (transition) =>
-          transition.currentState === newTransition.currentState &&
-          transition.readSymbol === newTransition.readSymbol
+        (t) =>
+          t.currentState === newTransition.currentState && t.readSymbol === newTransition.readSymbol
       )
     ) {
       return {
@@ -97,18 +94,18 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
 
   return (
     <div className='tm-editor'>
+      <div className='editor-main'>
       <div className='editor-input-section'>
         <div className='editor-row'>
           <div className='editor-input state-editor'>
             <input
               ref={stateInputRef}
               type='text'
-              maxLength={5}
+              maxLength={10}
               placeholder='add new state...'
             />
             <button onClick={addState}>add state</button>
           </div>
-
           <div className='editor-input tape-editor'>
             <input
               type='text'
@@ -159,7 +156,11 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
               placeholder='symbol'
             />
           </div>
+
+          <span className='arrow' />
+          <div className='editor-row'>
           <select
+            className='input-width-50'
             name='nextState'
             value={newTransition.nextState}
             onChange={(e) => {
@@ -185,6 +186,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
           </select>
 
           <input
+            className='input-width-50'
             name='writeSymbol'
             type='text'
             value={newTransition.writeSymbol}
@@ -197,7 +199,10 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             maxLength={1}
             placeholder='write symbol'
           />
+          </div>
+          <div className='editor-row'>
           <select
+            className='input-width-50'
             name='moveDirection'
             value={newTransition.moveDirection}
             onChange={(e) =>
@@ -217,6 +222,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             <option value='R'>Right</option>
           </select>
           <button onClick={addTransition}>add transition</button>
+          </div>
           <p className='small-text'>{transitionValidationMessage}</p>
         </div>
       </div>
@@ -272,8 +278,9 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
           </div>
         </div>
       </div>
+      </div>
       {/* Generate Button */}
-      <button onClick={generateTM}>generate machine</button>
+      <button className='generate-button' onClick={generateTM}>generate machine</button>
     </div>
   );
 };

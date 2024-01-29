@@ -1,12 +1,6 @@
 import { useState } from 'react';
-// Turing Machine UI Components (moved to TuringMachineUI component)
-// import TuringMachineEditor from './components/turing-machine/editor/TuringMachineEditor';
-// import TuringMachineDisplay from './components/turing-machine/display/TuringMachineDisplay';
-// Turing Machine Component
 import TuringMachineUI from './components/turing-machine/TuringMachineUI';
-// Turing Machine Class Definition
 import TuringMachine from './util/turing/TuringMachine';
-import './App.css';
 
 function App() {
   const [TM, setTM] = useState(new TuringMachine());

@@ -41,16 +41,14 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
         ))}
       </div>
       <button onClick={onTMStep}>compute step</button>
-      <div className='display-graph'>
         <Graph
           graph={graphData}
           options={{
             layout: { hierarchical: false },
             edges: { color: '#000000' },
-            height: '500px'
+            // height: '500px'
           }}
         />
-      </div>
     </div>
   );
 };
