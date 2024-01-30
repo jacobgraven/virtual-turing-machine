@@ -1,20 +1,18 @@
 @font-face {
-    font-family: 'Exo';
-    src: url('../assets/fonts/exo/exo-variable_wght.woff2') format('woff2'),
-        url('../assets/fonts/exo/exo-variable_wght.woff') format('woff');
+    font-family: 'Poppins';
+    src: url('../assets/fonts/poppins/poppins.woff2') format('woff2'),
+        url('../assets/fonts/poppins/poppins.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 * {
     box-sizing: border-box;
-    /* margin: 0; */
-    /* padding: 0; */
 }
 
 body {
-    font-family: Exo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background:hsla(240, 2%, 13%, 0.9);
+    font-family: Poppins, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: hsla(240, 2%, 13%, 0.9);
 }
 
 button {
@@ -26,10 +24,8 @@ button {
 input,
 select {
     width: 100%;
-    padding: 20px;
-    margin-block: 5px;
-    display: inline-block;
-    border: 2px solid hsl(210, 13%, 50%, 0.25);
+    padding: 15px;
+    border: 2.5px solid #11111180;
     font-size: 1rem;
     font-size: clamp(1rem, 1.2525vw + 0.167rem, 1.6125rem);
 }
@@ -37,54 +33,54 @@ select {
 input:focus,
 select:focus {
     outline: none;
-    border: 2px solid hsla(240, 2%, 13%, 0.9);
+    border: 2px solid #111111;
 }
 
-*::placeholder,
-select option {
-    color: #000000 !important;
+::placeholder,
+option {
+    color: #1f1f1f;
     opacity: 1;
-    font-weight: 900 !important;
 }
 
-p {
-    /* font-weight: 700; */
+h2 {
     font-size: 1rem;
-    font-size: clamp(0.75rem, 2.593vw + 0.167rem, 2.5rem);
+    font-size: clamp(0.75rem, 2.593vw + 0.167rem, 2.25rem);
+}
+
+table {
+    border-spacing: 0;
 }
 
 .small-text {
-    font-weight: normal;
     font-size: 0.75rem;
     font-size: clamp(0.75rem, 0.37vw + 0.667rem, 1.25rem);
 }
 
 .large-text {
-    font-weight: normal;
+    font-size: 1rem;
     font-size: clamp(1rem, 2.593vw + 0.167rem, 3rem);
 }
 
+.larger-text {
+    font-size: 1.5rem;
+    font-size: clamp(1.5rem, 3vw + 0.27rem, 5rem);
+}
+
 .normal-text {
-    font-weight: normal;
+    font-size: 0.9rem;
     font-size: clamp(.8rem, 2.2593vw + 0.147rem, 2.5rem);
-}
-
-.bold-text {
-    font-weight: bold;
-}
-
-.thin-text {
-    font-weight: thin;
 }
 
 .italic-text {
     font-style: italic;
 }
 
-table {
-    border-spacing: 0;
-    /* border-spacing: 8px; */
-    /* border-spacing: calc(.325vw + 8px); */
+.btn-width-max {
+    width: 100% !important;
+}
+
+.color-selected {
+    color: rgba(0, 169, 0, 0.5);
 }
 
 @media screen and (min-width: 768px) {}

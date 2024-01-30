@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
-import './TuringMachineEditor.css';
+// import './TuringMachineEditor.css';
 
 const TuringMachineEditor = ({ onTMGeneration }) => {
   const tapeInputRef = useRef();
   const stateInputRef = useRef();
+  const trInputCurrStateRef = useRef();
+  const trInputNextStateRef = useRef();
 
   const [states, setStates] = useState(new Set());
   const [initialState, setInitialState] = useState('');
@@ -26,9 +28,10 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
     const s = stateInputRef.current.value.trim();
     if (s === '') {
       return;
-    } else {
-      setStates(new Set([...states, s]));
     }
+
+    setStates(new Set([...states, s]));
+    stateInputRef.current.value = '';
 
     if (initialState === '' || states.size === 0) {
       setInitialState(s);
@@ -38,17 +41,33 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
   const updateTape = () => {
     const content = tapeInputRef.current.value;
     setTapeContent(content.split(' ').join('_'));
+    tapeInputRef.current.value = '';
   };
 
   const deleteState = (s) => {
     const updatedStates = new Set([...states].filter((state) => state !== s));
     const updatedTransitions = transitions.filter((t) => t.currentState !== s && t.nextState !== s);
-    setStates(updatedStates);
-    setTransitions(updatedTransitions);
+
+    let newCurrState = newTransition.currentState;
+    let newNextState = newTransition.nextState;
+
+    if (s === newTransition.currentState) {
+      newCurrState = [...updatedStates][0] || '';
+      trInputCurrStateRef.current.value = newCurrState;
+    }
+
+    if (s === newTransition.nextState) {
+      newNextState = [...updatedStates][0] || '';
+      trInputNextStateRef.current.value = newNextState;
+    }
 
     if (s === initialState) {
-      updatedStates.size > 0 ? setInitialState([...updatedStates][0]) : setInitialState('');
+      setInitialState([...updatedStates][0] || '');
     }
+
+    setNewTransition({ ...newTransition, currentState: newCurrState, nextState: newNextState });
+    setStates(updatedStates);
+    setTransitions(updatedTransitions);
   };
 
   const addTransition = () => {
@@ -68,15 +87,30 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
   const validateTransition = (t) => {
     const { currentState, readSymbol, nextState, writeSymbol, moveDirection } = t;
     if (!states.has(currentState)) {
-      return { isValid: false, message: `" ${currentState} " is not a valid state` };
+      return {
+        isValid: false,
+        message: `" ${currentState} " is not a valid state`
+      };
     } else if (!states.has(nextState)) {
-      return { isValid: false, message: `" ${nextState} " is not a valid state` };
+      return {
+        isValid: false,
+        message: `" ${nextState} " is not a valid state`
+      };
     } else if (typeof readSymbol !== 'string' || readSymbol.length !== 1) {
-      return { isValid: false, message: `Invalid symbol (${readSymbol})` };
+      return {
+        isValid: false,
+        message: `Invalid symbol (${readSymbol})`
+      };
     } else if (typeof writeSymbol !== 'string' || writeSymbol.length !== 1) {
-      return { isValid: false, message: `Invalid symbol (${writeSymbol})` };
+      return {
+        isValid: false,
+        message: `Invalid symbol (${writeSymbol})`
+      };
     } else if (moveDirection !== 'L' && moveDirection !== 'R') {
-      return { isValid: false, message: `Invalid direction` };
+      return {
+        isValid: false,
+        message: `Invalid direction`
+      };
     } else if (
       transitions.some(
         (t) =>
@@ -88,38 +122,49 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
         message: `Transition already exists (state:${currentState}, symbol:${readSymbol})`
       };
     } else {
-      return { isValid: true, message: 'Transition is valid' };
+      return {
+        isValid: true,
+        message: 'Transition is valid'
+      };
     }
   };
 
   return (
     <div className='tm-editor'>
-      <div className='editor-main'>
-      <div className='editor-input-section'>
-        <div className='editor-row'>
-          <div className='editor-input state-editor'>
+      <div className='input-section'>
+        <div className='flex-group'>
+          <div className='input-state'>
             <input
               ref={stateInputRef}
               type='text'
-              maxLength={10}
-              placeholder='add new state...'
+              maxLength={5}
+              placeholder='add states here...'
             />
-            <button onClick={addState}>add state</button>
+            <button
+              className='btn-width-max'
+              onClick={addState}>
+              ADD STATE
+            </button>
           </div>
-          <div className='editor-input tape-editor'>
+          <div className='input-tape'>
             <input
               type='text'
               ref={tapeInputRef}
-              placeholder='new tape content...'
+              placeholder='edit tape here...'
             />
-            <button onClick={updateTape}>set tape</button>
+            <button
+              className='btn-width-max'
+              onClick={updateTape}>
+              SET TAPE
+            </button>
           </div>
         </div>
 
-        <div className='editor-input transition-editor'>
-          <div className='editor-row'>
+        <div className='editor-input input-transition'>
+          <div className='flex-group'>
             <select
               name='currentState'
+              ref={trInputCurrStateRef}
               value={newTransition.currentState}
               onChange={(e) => {
                 setNewTransition({
@@ -157,130 +202,171 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             />
           </div>
 
-          <span className='arrow' />
-          <div className='editor-row'>
-          <select
-            className='input-width-50'
-            name='nextState'
-            value={newTransition.nextState}
-            onChange={(e) => {
-              setNewTransition({
-                ...newTransition,
-                [e.target.name]: e.target.value
-              });
-            }}>
-            <option
-              value=''
-              defaultChecked
-              disabled>
-              next state
-            </option>
+          <span className='large-text'>&#8594;</span>
 
-            {Array.from(states).map((value, index) => (
+          <div className='row-collection'>
+            <div className='flex-group'>
+              <select
+                name='nextState'
+                ref={trInputNextStateRef}
+                value={newTransition.nextState}
+                onChange={(e) => {
+                  setNewTransition({
+                    ...newTransition,
+                    [e.target.name]: e.target.value
+                  });
+                }}>
+                <option
+                  value=''
+                  defaultChecked
+                  disabled>
+                  next state
+                </option>
+
+                {Array.from(states).map((value, index) => (
+                  <option
+                    key={index}
+                    value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                name='writeSymbol'
+                type='text'
+                value={newTransition.writeSymbol}
+                onChange={(e) =>
+                  setNewTransition({
+                    ...newTransition,
+                    [e.target.name]: e.target.value
+                  })
+                }
+                maxLength={1}
+                placeholder='write symbol'
+              />
+            </div>
+            <select
+              name='moveDirection'
+              value={newTransition.moveDirection}
+              onChange={(e) =>
+                setNewTransition({
+                  ...newTransition,
+                  [e.target.name]: e.target.value
+                })
+              }>
               <option
-                key={index}
-                value={value}>
-                {value}
+                value=''
+                defaultChecked
+                disabled>
+                tape direction
               </option>
-            ))}
-          </select>
 
-          <input
-            className='input-width-50'
-            name='writeSymbol'
-            type='text'
-            value={newTransition.writeSymbol}
-            onChange={(e) =>
-              setNewTransition({
-                ...newTransition,
-                [e.target.name]: e.target.value
-              })
-            }
-            maxLength={1}
-            placeholder='write symbol'
-          />
+              <option value='L'>Left</option>
+              <option value='R'>Right</option>
+            </select>
+            <button
+              className='btn-width-max'
+              onClick={addTransition}
+              // style={{ width: '100% !important' }}>
+            >
+              ADD TRANSITION
+            </button>
+            <p
+              className='small-text'
+              style={{ marginBlock: 0 }}>
+              {transitionValidationMessage}
+            </p>
           </div>
-          <div className='editor-row'>
-          <select
-            className='input-width-50'
-            name='moveDirection'
-            value={newTransition.moveDirection}
-            onChange={(e) =>
-              setNewTransition({
-                ...newTransition,
-                [e.target.name]: e.target.value
-              })
-            }>
-            <option
-              value=''
-              defaultChecked
-              disabled>
-              tape direction
-            </option>
-
-            <option value='L'>Left</option>
-            <option value='R'>Right</option>
-          </select>
-          <button onClick={addTransition}>add transition</button>
-          </div>
-          <p className='small-text'>{transitionValidationMessage}</p>
         </div>
       </div>
-      <div className='editor-display-section'>
-        <div className='editor-display tape-display'>
-          <p>tape:</p>
+
+      <div className='display-section'>
+        <div className='editor-display-tape'>
+          {/* <div className='tape-display editor-display-tape'> */}
+          <h2>TAPE</h2>
           <div className='tape-text'>{tapeContent}</div>
         </div>
 
-        <div className='display-row'>
-          <div className='editor-display state-display'>
-            <p>states:</p>
-            <ul>
-              {[...states].map((state, index) => (
-                <li key={index}>
-                  {state}
-                  {state !== initialState ? (
-                    <button onClick={() => setInitialState(state)}>set initial</button>
-                  ) : (
-                    <span>&nbsp;(initial state)</span>
-                  )}
-                  <button onClick={() => deleteState(state)}>delete</button>
-                </li>
-              ))}
-            </ul>
+        <div className='display-group'>
+          <div className='editor-display-state'>
+            <h2>STATES</h2>
+            <div className='state-table-wrapper'>
+              <table className='state-table'>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>State</th>
+                    <th> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from(states).map((state, index) => (
+                    <tr key={index}>
+                      <td>{index}</td>
+                      <td>{state}</td>
+                      <td>
+                        {state !== initialState ? (
+                          <button
+                            class='small-text'
+                            onClick={() => setInitialState(state)}>
+                            Initial&#x2610;
+                          </button>
+                        ) : (
+                          <button class='small-text color-selected'>Initial &#x2611;</button>
+                        )}
+                      </td>
+                      <td style={{ border: 'none' }}>
+                        <button
+                          className='btn-width-max small-text'
+                          onClick={() => deleteState(state)}>
+                          &#10060;
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div className='editor-display transition-display'>
-            <p>transitions:</p>
-            <table>
-              <thead>
-                <tr>
-                  <th>State</th>
-                  <th>Symbol</th>
-                  <th>Next State</th>
-                  <th>Next Symbol</th>
-                  <th>Tape Direction</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transitions.map((transition, index) => (
-                  <tr key={index}>
-                    <td>{transition.currentState}</td>
-                    <td>{transition.readSymbol}</td>
-                    <td>{transition.nextState}</td>
-                    <td>{transition.writeSymbol}</td>
-                    <td>{transition.moveDirection}</td>
-                    <button onClick={() => deleteTransition(transition)}>delete</button>
+          <div className='editor-display-transitions transition-display'>
+            <h2>TRANSITIONS</h2>
+            <div className='transition-table-wrapper'>
+              <table className='transition-table'>
+                <thead>
+                  <tr>
+                    <th>State</th>
+                    <th>Symbol</th>
+                    <th>Next State</th>
+                    <th>Write Symbol</th>
+                    <th>Tape Direction</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {transitions.map((transition, index) => (
+                    <tr key={index}>
+                      <td>{transition.currentState}</td>
+                      <td>{transition.readSymbol}</td>
+                      <td>{transition.nextState}</td>
+                      <td>{transition.writeSymbol}</td>
+                      <td>{transition.moveDirection}</td>
+                      <button onClick={() => deleteTransition(transition)}> &#10060;</button>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
+      <div className='editor-generate-button'>
+        <button
+          className='generate-button'
+          onClick={generateTM}>
+          generate machine
+        </button>
       </div>
-      {/* Generate Button */}
-      <button className='generate-button' onClick={generateTM}>generate machine</button>
     </div>
   );
 };

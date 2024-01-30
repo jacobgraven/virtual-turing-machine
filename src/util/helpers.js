@@ -25,3 +25,7 @@ export const transformToGraphData = (transitionFunction, machineState) => {
   });
   return { nodes, edges };
 };
+
+// export const getGraphdata = (transitionFunction, states, currState) => {
+//   return undefined;
+// }
