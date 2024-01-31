@@ -2,17 +2,11 @@
 
 ## About
 
-## Setup Instructions
+A Turing machine app virtualized/visualized with React.js. Features an editor menu and a display component with the necessary controls for configuring and visualizing turing machines. Still working on minor issues and important shit like an infinite (or big and looped) tape and symbol set configs.
 
-If you would like to test the project on your device, follow the instructions below.
+## Local Setup
 
-### Software Requirements
-
-- [Node.js](https://nodejs.org/) - Node.js
-- [npm](https://www.npmjs.org/) - Node.js package manager
-  - A package manager like Yarn or pnpm should also work
-
-### Installation
+#### _If you would like to test the project locally, you can clone the repo and use the simple commands described below. You can also [view it online here](https://www.youtube.com/watch?v=L3tsYC5OYhQ) without having to download anything._
 
 1. Clone the repository
 
@@ -20,35 +14,28 @@ If you would like to test the project on your device, follow the instructions be
 git clone https://github.com/jacobgraven/virtual-turing-machine.git
 ```
 
-2. Navigate to the project directory
+2. cd in that joint
 
 ```bash
 cd virtual-turing-machine
 ```
 
-3. Install the dependencies with your package manager
+3. Install the dependencies (doom)
 
 ```bash
 npm install
+
+# yarn install
+# pnpm install
 ```
 
-If you are using a different package manager, use the appropriate command:
-
-```bash
-yarn install
-# or
-pnpm install
-```
-
-### Running the Project
-
-To start the project on your local machine, use the start command:
+4. Use the start command to launch it
 
 ```bash
 npm start
+
 # yarn start
+# pnpm start
 ```
 
-The app should be available at https://localhost:3000. Your default browser should automatically open the page.
-
-#### If the app does not automatically open on your browser and the URL 'https://localhost:3000' is not working, you likely have problems with your local environment. I have only used npm on this project so I am not sure if a different package manager presents any problems. I plan to deploy the project to a dedicated domain so installation is not necessary to use it.
+If your browser does not automatically open the page, check https://localhost:3000.

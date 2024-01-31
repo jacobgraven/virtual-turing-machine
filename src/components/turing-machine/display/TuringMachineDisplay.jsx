@@ -6,6 +6,34 @@ import { transformToGraphData } from '../../../util/helpers';
 
 const TuringMachineDisplay = ({ tm, onTMStep }) => {
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
+  const graphOptions = {
+    autoResize: true,
+    minHeight: '500px',
+    width: '100%',
+    layout: {
+      hierarchical: false,
+    },
+    edges: {
+      color: '#000000',
+    },
+    physics: {
+      stabilization: {
+        iterations: 200,
+      },
+      barnesHut: {
+        gravitationalConstant: -30000,
+        springConstant: 0.04,
+        springLength: 95,
+      },
+    },
+    interaction: {
+      dragNodes: true,
+      zoomView: true,
+      dragView: true,
+      minZoom: 0.1,
+      maxZoom: 10,
+    },
+  };
   useEffect(() => {
     const { nodes, edges } = transformToGraphData(tm.transitionFunction, tm.currentState);
     setGraphData({ nodes, edges });
@@ -13,7 +41,7 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
 
   return (
     <div className='tm-display'>
-      {/* State Info */}
+      {/* State Set and Current State */}
       <div className='display-section state-display'>
         <div className='state-set large-text'>
           <span className='italic-text'>set of states:</span>
@@ -27,7 +55,7 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
           <span>{tm.currentState}</span>
         </div>
       </div>
-      {/* Tape Display */}
+      {/* Tape Content */}
       <div className='tape-display'>
         {tm.tape.map((symbol, index) => (
           <div
@@ -49,9 +77,12 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
       <div className='state-diagram'>
         <Graph
           graph={graphData}
+          // NOTE: working on more options/styles for the graph
           options={{
             layout: { hierarchical: false },
-            edges: { color: '#000000' }
+            edges: { color: '#000000' },
+            width: '100%',
+            height: '100%'
           }}
         />
       </div>

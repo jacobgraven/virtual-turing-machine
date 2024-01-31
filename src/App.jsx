@@ -28,15 +28,6 @@ function App() {
   };
 
   return (
-    // <div className='App'>
-    //   <TuringMachineEditor
-    //     onTMGeneration={handleTMGeneration}
-    //   />
-    //   <TuringMachineDisplay
-    //     tm={TM}
-    //     onTMStep={handleTMStep}
-    //   />
-    // </div>
     <div className='App'>
       <TuringMachineUI
         tm={TM}

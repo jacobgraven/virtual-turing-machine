@@ -63,24 +63,16 @@
   }
 }
 
-.state-table-wrapper {
-  // width: 25%;
-  max-height: 250px;
-  min-height: 100px;
-  overflow-y: scroll;
-}
-
-.state-table {
-  width: 100%;
-}
-
+.state-table-wrapper,
 .transition-table-wrapper {
-  // width: 40%;
+  // width: 25%;
+  // width: 50%;
   max-height: 250px;
   min-height: 100px;
   overflow-y: scroll;
 }
 
+.state-table,
 .transition-table {
   width: 100%;
 }
@@ -166,4 +158,8 @@
       width: 90%;
     }
   }
+}
+
+.state-diagram {
+  height: 50%;
 }

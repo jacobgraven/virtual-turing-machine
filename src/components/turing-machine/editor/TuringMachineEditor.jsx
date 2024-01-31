@@ -274,7 +274,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             </button>
             <p
               className='small-text'
-              style={{ marginBlock: 0 }}>
+              style={{ marginBlock: 0, textAlign: 'center' }}>
               {transitionValidationMessage}
             </p>
           </div>
@@ -283,7 +283,6 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
 
       <div className='display-section'>
         <div className='editor-display-tape'>
-          {/* <div className='tape-display editor-display-tape'> */}
           <h2>TAPE</h2>
           <div className='tape-text'>{tapeContent}</div>
         </div>

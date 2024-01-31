@@ -1,7 +1,6 @@
 import React, { forwardRef, useRef } from 'react';
 import TuringMachineEditor from './editor/TuringMachineEditor';
 import TuringMachineDisplay from './display/TuringMachineDisplay';
-// import './TuringMachineUI.css'
 
 const TuringMachineUI = ({ tm, onTMStep, onTMGeneration }) => {
   return (
