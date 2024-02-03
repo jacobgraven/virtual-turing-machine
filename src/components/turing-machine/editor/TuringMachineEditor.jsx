@@ -135,25 +135,27 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
         <div className='flex-group'>
           <div className='input-state'>
             <input
+              className='base-input'
               ref={stateInputRef}
               type='text'
               maxLength={5}
               placeholder='add states here...'
             />
             <button
-              className='btn-width-max'
+              className='btn-width-max base-btn'
               onClick={addState}>
               ADD STATE
             </button>
           </div>
           <div className='input-tape'>
             <input
+              className='base-input'
               type='text'
               ref={tapeInputRef}
               placeholder='edit tape here...'
             />
             <button
-              className='btn-width-max'
+              className='btn-width-max base-btn'
               onClick={updateTape}>
               SET TAPE
             </button>
@@ -163,6 +165,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
         <div className='editor-input input-transition'>
           <div className='flex-group'>
             <select
+              className='base-select'
               name='currentState'
               ref={trInputCurrStateRef}
               value={newTransition.currentState}
@@ -173,6 +176,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                 });
               }}>
               <option
+                className='base-option'
                 value=''
                 defaultChecked
                 disabled>
@@ -188,6 +192,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
               ))}
             </select>
             <input
+              className='base-input'
               name='readSymbol'
               type='text'
               value={newTransition.readSymbol}
@@ -207,6 +212,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
           <div className='row-collection'>
             <div className='flex-group'>
               <select
+                className='base-select'
                 name='nextState'
                 ref={trInputNextStateRef}
                 value={newTransition.nextState}
@@ -217,6 +223,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                   });
                 }}>
                 <option
+                  className='base-option'
                   value=''
                   defaultChecked
                   disabled>
@@ -225,6 +232,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
 
                 {Array.from(states).map((value, index) => (
                   <option
+                    className='base-option'
                     key={index}
                     value={value}>
                     {value}
@@ -233,6 +241,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
               </select>
 
               <input
+                className='base-input'
                 name='writeSymbol'
                 type='text'
                 value={newTransition.writeSymbol}
@@ -247,6 +256,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
               />
             </div>
             <select
+              className='base-select'
               name='moveDirection'
               value={newTransition.moveDirection}
               onChange={(e) =>
@@ -256,6 +266,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                 })
               }>
               <option
+                className='base-option'
                 value=''
                 defaultChecked
                 disabled>
@@ -266,15 +277,14 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
               <option value='R'>Right</option>
             </select>
             <button
-              className='btn-width-max'
+              className='btn-width-max base-btn'
               onClick={addTransition}
-              // style={{ width: '100% !important' }}>
             >
               ADD TRANSITION
             </button>
             <p
               className='small-text'
-              style={{ marginBlock: 0, textAlign: 'center' }}>
+              style={{ textAlign: 'center' }}>
               {transitionValidationMessage}
             </p>
           </div>
@@ -291,7 +301,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
           <div className='editor-display-state'>
             <h2>STATES</h2>
             <div className='state-table-wrapper'>
-              <table className='state-table'>
+              <table className='state-table base-table'>
                 <thead>
                   <tr>
                     <th>#</th>
@@ -307,17 +317,19 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                       <td>
                         {state !== initialState ? (
                           <button
-                            class='small-text'
+                            className='small-text base-btn'
                             onClick={() => setInitialState(state)}>
                             Initial&#x2610;
                           </button>
                         ) : (
-                          <button class='small-text color-selected'>Initial &#x2611;</button>
+                          <button className='small-text color-selected base-btn'>
+                            Initial &#x2611;
+                          </button>
                         )}
                       </td>
                       <td style={{ border: 'none' }}>
                         <button
-                          className='btn-width-max small-text'
+                          className='btn-width-max small-text base-btn'
                           onClick={() => deleteState(state)}>
                           &#10060;
                         </button>
@@ -332,7 +344,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
           <div className='editor-display-transitions transition-display'>
             <h2>TRANSITIONS</h2>
             <div className='transition-table-wrapper'>
-              <table className='transition-table'>
+              <table className='transition-table base-table'>
                 <thead>
                   <tr>
                     <th>State</th>
@@ -350,7 +362,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                       <td>{transition.nextState}</td>
                       <td>{transition.writeSymbol}</td>
                       <td>{transition.moveDirection}</td>
-                      <button onClick={() => deleteTransition(transition)}> &#10060;</button>
+                      <button className='base-btn' onClick={() => deleteTransition(transition)}> &#10060;</button>
                     </tr>
                   ))}
                 </tbody>
@@ -361,7 +373,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
       </div>
       <div className='editor-generate-button'>
         <button
-          className='generate-button'
+          className='generate-button base-btn'
           onClick={generateTM}>
           generate machine
         </button>

@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
-
+import { getGraphData } from '../../../util/helpers';
 // import './TuringMachineDisplay.css';
-import { transformToGraphData } from '../../../util/helpers';
 
 const TuringMachineDisplay = ({ tm, onTMStep }) => {
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
   const graphOptions = {
-    autoResize: true,
-    minHeight: '500px',
+    autoResize: false,
+    // minHeight: '500px',
     width: '100%',
     layout: {
-      hierarchical: false,
+      hierarchical: true
     },
     edges: {
       color: '#000000',
+      smooth: true,
+      
+
+      spacingFactor: 1.5 // increase edge
+
     },
     physics: {
       stabilization: {
@@ -23,25 +27,25 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
       barnesHut: {
         gravitationalConstant: -30000,
         springConstant: 0.04,
-        springLength: 95,
-      },
+        springLength: 95
+      }
     },
     interaction: {
       dragNodes: true,
       zoomView: true,
       dragView: true,
-      minZoom: 0.1,
-      maxZoom: 10,
-    },
+      // minZoom: 0.1,
+      // maxZoom: 10
+    }
   };
   useEffect(() => {
-    const { nodes, edges } = transformToGraphData(tm.transitionFunction, tm.currentState);
+    const { nodes, edges } = getGraphData(tm.transitionFunction, tm.states, tm.currentState);
     setGraphData({ nodes, edges });
   }, [tm]);
 
   return (
     <div className='tm-display'>
-      {/* State Set and Current State */}
+      {/* Displays: state set and current state of the machine currently loaded into the component */}
       <div className='display-section state-display'>
         <div className='state-set large-text'>
           <span className='italic-text'>set of states:</span>
@@ -55,7 +59,7 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
           <span>{tm.currentState}</span>
         </div>
       </div>
-      {/* Tape Content */}
+      {/* Displays: current tape content (the characters currently printed on the tape cells) */}
       <div className='tape-display'>
         {tm.tape.map((symbol, index) => (
           <div
@@ -72,18 +76,22 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
           </div>
         ))}
       </div>
-      <button onClick={onTMStep}>compute step</button>
-      {/* State Diagram */}
+      <button
+        className='base-btn'
+        onClick={onTMStep}>
+        compute step
+      </button>
+      {/* Displays: state diagram (highlights the current state and shows transition behavior) */}
       <div className='state-diagram'>
         <Graph
           graph={graphData}
-          // NOTE: working on more options/styles for the graph
-          options={{
-            layout: { hierarchical: false },
-            edges: { color: '#000000' },
-            width: '100%',
-            height: '100%'
-          }}
+          options={graphOptions}
+          // options={{
+          //   layout: { hierarchical: false },
+          //   edges: { color: '#000000' },
+          //   width: '100%',
+          //   height: '100%'
+          // }}
         />
       </div>
     </div>

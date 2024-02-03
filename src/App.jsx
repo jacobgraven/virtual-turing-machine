@@ -13,15 +13,16 @@ function App() {
   const handleTMStep = () => {
     const stepResult = TM.step();
     if (!stepResult) {
-      console.warn('WARNING: step failed; undefined transition');
+      // console.warn('WARNING: step failed; undefined transition');
+      window.alert('WARNING: step failed; undefined transition');
     } else {
       setTM(
         new TuringMachine(
-          stepResult.Q,
-          stepResult.q0,
-          stepResult.tapeStr,
-          stepResult.tapeIdx,
-          stepResult.trTable
+          stepResult.states,
+          stepResult.initialState,
+          stepResult.tapeContent,
+          stepResult.tapeIndex,
+          stepResult.transitionFunction
         )
       );
     }

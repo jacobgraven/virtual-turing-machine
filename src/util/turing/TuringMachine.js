@@ -6,8 +6,8 @@ class TuringMachine {
    * Constructs a Turing Machine instance.
    * @param {string[]} states - The set of states for the Turing Machine.
    * @param {string} initialState - The current/starting state of the Turing Machine.
-   * @param {string} tapeContent - The initial content of the tape
-   * @param {number} tapeIndex - The starting index of the tape
+   * @param {string} tapeContent - The initial content of the tape, as a string.
+   * @param {number} tapeIndex - The starting index of the tape.
    * @param {Object} transitionFunction - The table defining the Turing Machine transitions.
    */
   constructor(
@@ -23,7 +23,6 @@ class TuringMachine {
     this.tapeIndex = tapeIndex >= 0 && tapeIndex < this.tape.length ? tapeIndex : 0;
 
     if (Array.isArray(transitionFunction)) {
-      // this.transitionArray = transitionFunction;
       this.transitionFunction = new Map();
       this.parseTransitionFunction(transitionFunction);
     } else {
@@ -34,7 +33,7 @@ class TuringMachine {
 
   /**
    * Transforms the transition array from the editor component into a transition map object
-   * @param {Array<Array<string>>} func - the array of transition data, which is stored as length 5 arrays
+   * @param {Array<Array<string>>} func - an array of transition tuples that encodes the transition function.
    */
   parseTransitionFunction(func) {
     func.forEach((tr) => {
@@ -44,11 +43,11 @@ class TuringMachine {
 
   /**
    * Converts a transition from list form to object form and adds it to the object's transition function
-   * @param {string} currentState -
-   * @param {string} readSymbol -
-   * @param {string} nextState -
-   * @param {string} writeSymbol -
-   * @param {string} moveDirection -
+   * @param {string} currentState - the starting state of the transition
+   * @param {string} readSymbol - the symbol corresponding to the transition
+   * @param {string} nextState - the resulting state of the transition
+   * @param {string} writeSymbol - the symbol that is written to the tape
+   * @param {string} moveDirection - the direction the tape moves after the transition
    */
   parseTransition(currentState, readSymbol, nextState, writeSymbol, moveDirection) {
     if (!this.states.has(currentState) || !this.states.has(nextState)) {
@@ -87,7 +86,7 @@ class TuringMachine {
 
   /**
    * Moves the head of the tape in the specified direction.
-   * @param {'L'|'R'} direction - The direction to move the tape ('L' for left, 'R' for right).
+   * @param {'L'|'R'} direction - The direction to move the tape (left or right)
    */
   moveTape(direction) {
     if (direction === 'L') {
@@ -98,8 +97,7 @@ class TuringMachine {
   }
 
   /**
-   * Performs a step computation with the current machine configuration and returns parameters
-   * for the next machine state
+   * Performs a single computation (or step) for the current machine configuration and returns the next configuration.
    * @returns {Object} the object defining paramteres for the machine post-computation
    */
   step() {
@@ -114,13 +112,13 @@ class TuringMachine {
 
       let newCurr = transition.nextState;
       let newIdx = this.tapeIndex;
-      // Next TM Obj: Q, q0, tapeStr, tapeIdx, trTable
+      // Next TM Instance: TuringMachine(stateSet, initialState, tapeContent, tapeIndex, transitionFunction)
       return {
-        Q: this.states,
-        q0: newCurr,
-        tapeStr: this.tape.join(''),
-        tapeIdx: newIdx,
-        trTable: this.transitionFunction
+        states: this.states,
+        initialState: newCurr,
+        tapeContent: this.tape.join(''),
+        tapeIndex: newIdx,
+        transitionFunction: this.transitionFunction
       };
     }
   }
