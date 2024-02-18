@@ -1,28 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import Graph from 'react-graph-vis';
 import { getGraphData } from '../../../util/helpers';
-// import './TuringMachineDisplay.css';
 
 const TuringMachineDisplay = ({ tm, onTMStep }) => {
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
   const graphOptions = {
     autoResize: false,
-    // minHeight: '500px',
     width: '100%',
+    height: '100%',
+    nodes: {
+      borderWidth: 2
+    },
     layout: {
-      hierarchical: true
+      hierarchical: {
+        direction: 'LR',
+        sortMethod: 'directed',
+        nodeSpacing: 100,
+        levelSeparation: 100
+      }
     },
     edges: {
-      color: '#000000',
-      smooth: true,
-      
-
-      spacingFactor: 1.5 // increase edge
-
+      color: '#1a1a1a',
+      font: {
+        size: 7
+      },
+      smooth: {
+        type: 'curvedCW',
+        roundness: 0.2
+      }
     },
     physics: {
       stabilization: {
-        iterations: 200,
+        iterations: 200
       },
       barnesHut: {
         gravitationalConstant: -30000,
@@ -33,9 +42,7 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
     interaction: {
       dragNodes: true,
       zoomView: true,
-      dragView: true,
-      // minZoom: 0.1,
-      // maxZoom: 10
+      dragView: true
     }
   };
   useEffect(() => {
@@ -47,14 +54,14 @@ const TuringMachineDisplay = ({ tm, onTMStep }) => {
     <div className='tm-display'>
       {/* Displays: state set and current state of the machine currently loaded into the component */}
       <div className='display-section state-display'>
-        <div className='state-set large-text'>
+        <div className='state-set medium-text'>
           <span className='italic-text'>set of states:</span>
           <span>
-            &nbsp; <span className='larger-text'>[</span> &nbsp; {Array.from(tm.states).join(', ')}{' '}
-            &nbsp; <span className='larger-text'>]</span> &nbsp;
+            &nbsp; <span className='large-text'>[</span> &nbsp;
+            {Array.from(tm.states).join(', ')} &nbsp; <span className='large-text'>]</span> &nbsp;
           </span>
         </div>
-        <div className='state-current large-text'>
+        <div className='state-current medium-text'>
           <span className='italic-text'>current state: &nbsp;</span>
           <span>{tm.currentState}</span>
         </div>

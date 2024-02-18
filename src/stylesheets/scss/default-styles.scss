@@ -1,103 +1,91 @@
 @font-face {
   font-family: 'Poppins';
+  font-style: normal;
+  font-weight: normal;
+
   src: url('../../assets/fonts/poppins/poppins.woff2') format('woff2'),
     url('../../assets/fonts/poppins/poppins.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
 }
-
 * {
   box-sizing: border-box;
 }
-
 body {
+  background: hsla(240, 2%, 13%, 0.9);
+
   font-family: Poppins, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: hsla(240, 2%, 13%, 0.9);
 }
-
 h2 {
   font-size: 1rem;
   font-size: clamp(0.75rem, 2.593vw + 0.167rem, 2.25rem);
 }
-
 .base-btn {
-  background-color: hsla(0, 0%, 25%, 0.55);
+  -moz-border-radius: 1px;
+  -moz-transition: background-color 0.5s ease, outline 0.5s ease;
+  -ms-border-radius: 1px;
+  -ms-transition: background-color 0.5s ease, outline 0.5s ease;
+  -o-border-radius: 1px;
+  -o-transition: background-color 0.5s ease, outline 0.5s ease;
+  -webkit-border-radius: 1px;
+  -webkit-transition: background-color 0.5s ease, outline 0.5s ease;
+  background-color: hsla(0, 0%, 50%, 0.55);
+  border: none;
+  border-radius: 1px;
+  color: white;
+  cursor: pointer;
   font-size: clamp(1rem, 2.1593vw + 0.107rem, 1.5rem);
   padding: 0.5rem 1rem;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 1px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  -ms-border-radius: 1px;
-  -o-border-radius: 1px;
   transition: background-color 0.5s ease, outline 0.5s ease;
-  -webkit-transition: background-color 0.5s ease, outline 0.5s ease;
-  -moz-transition: background-color 0.5s ease, outline 0.5s ease;
-  -ms-transition: background-color 0.5s ease, outline 0.5s ease;
-  -o-transition: background-color 0.5s ease, outline 0.5s ease;
+
   &:hover {
     background-color: #a0a0a0a0;
-    outline: 1px solid black;
     color: black;
+    outline: 1px solid black;
   }
 }
-
 .base-input,
 .base-select {
-  width: 100%;
-  padding: 15px;
   border: 2.5px solid #11111180;
   font-size: 1rem;
   font-size: clamp(1rem, 1.2525vw + 0.167rem, 1.6125rem);
+  padding: 15px;
+  width: 100%;
 }
-
 .base-input:focus,
 .base-select:focus {
-  outline: none;
   border: 2px solid #1f1f1f;
+  outline: none;
 }
-
 ::placeholder,
 .base-option {
   color: #1f1f1f;
   opacity: 1;
 }
-
 .base-table {
   border-spacing: 0;
 }
-
 .small-text {
   font-size: 0.75rem;
   font-size: clamp(0.75rem, 0.37vw + 0.667rem, 1.25rem);
 }
-
-.large-text {
+.medium-text {
   font-size: 1rem;
   font-size: clamp(1rem, 2.593vw + 0.167rem, 3rem);
 }
-
-.larger-text {
+.large-text {
   font-size: 1.5rem;
   font-size: clamp(1.5rem, 3vw + 0.27rem, 5rem);
 }
-
 .normal-text {
   font-size: 0.9rem;
   font-size: clamp(0.8rem, 2.2593vw + 0.147rem, 2.5rem);
 }
-
 .italic-text {
   font-style: italic;
 }
-
 .btn-width-max {
   width: 100% !important;
 }
-
 .color-selected {
   color: rgba(0, 169, 0, 0.5);
 }

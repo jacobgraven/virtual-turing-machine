@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react';
+import React from 'react';
 import TuringMachineEditor from './editor/TuringMachineEditor';
 import TuringMachineDisplay from './display/TuringMachineDisplay';
 

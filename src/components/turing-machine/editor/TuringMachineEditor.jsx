@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-// import './TuringMachineEditor.css';
 
 const TuringMachineEditor = ({ onTMGeneration }) => {
   const tapeInputRef = useRef();
@@ -207,7 +206,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             />
           </div>
 
-          <span className='large-text'>&#8594;</span>
+          <span className='medium-text'>&#8594;</span>
 
           <div className='row-collection'>
             <div className='flex-group'>
@@ -278,8 +277,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
             </select>
             <button
               className='btn-width-max base-btn'
-              onClick={addTransition}
-            >
+              onClick={addTransition}>
               ADD TRANSITION
             </button>
             <p
@@ -319,7 +317,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                           <button
                             className='small-text base-btn'
                             onClick={() => setInitialState(state)}>
-                            Initial&#x2610;
+                            Initial &#x2610;
                           </button>
                         ) : (
                           <button className='small-text color-selected base-btn'>
@@ -362,7 +360,12 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
                       <td>{transition.nextState}</td>
                       <td>{transition.writeSymbol}</td>
                       <td>{transition.moveDirection}</td>
-                      <button className='base-btn' onClick={() => deleteTransition(transition)}> &#10060;</button>
+                      <button
+                        className='base-btn'
+                        onClick={() => deleteTransition(transition)}>
+                        {' '}
+                        &#10060;
+                      </button>
                     </tr>
                   ))}
                 </tbody>
@@ -375,7 +378,7 @@ const TuringMachineEditor = ({ onTMGeneration }) => {
         <button
           className='generate-button base-btn'
           onClick={generateTM}>
-          generate machine
+          Generate Machine
         </button>
       </div>
     </div>

@@ -6,7 +6,7 @@ A Turing machine app virtualized/visualized with React.js. Features an editor me
 
 ## Local Setup
 
-#### _If you would like to test the project locally, you can clone the repo and use the simple commands described below. You can also [view it online here](https://www.youtube.com/watch?v=L3tsYC5OYhQ) without having to download anything._
+#### _If you would like to test the project locally, you can clone the repo and use the simple commands described below. You can also [view it online here](https://www.youtube.com/watch?v=L3tsYC5OYhQ) without having to download anything (WIP)._
 
 1. Clone the repository
 
